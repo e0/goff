@@ -745,3 +745,22 @@ func (c *Client) GetMatchupsForWeekRange(leagueKey string, startWeek, endWeek in
 	}
 	return all, nil
 }
+
+// GetTeamMatchupsForWeekRange returns a list of a team's matchups for the
+// provided weeks.
+func (c *Client) GetTeamMatchupsForWeeks(teamKey string, weeks []int) ([]Matchup, error) {
+	weeksList := strconv.Itoa(weeks[0])
+	for _, w := range weeks {
+		weeksList += "," + strconv.Itoa(w)
+	}
+	content, err := c.GetFantasyContent(
+		fmt.Sprintf("%s/team/%s/matchups;weeks=%s",
+			YahooBaseURL,
+			teamKey,
+			weeksList))
+	if err != nil {
+		return nil, err
+	}
+
+	return content.Team.Matchups, nil
+}

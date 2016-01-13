@@ -225,6 +225,7 @@ type Team struct {
 	TeamPoints            Points        `xml:"team_points"`
 	TeamProjectedPoints   Points        `xml:"team_projected_points"`
 	TeamStandings         TeamStandings `xml:"team_standings"`
+	TeamStats             WeekStats     `xml:"team_stats"`
 	Players               []Player      `xml:"players>player"`
 }
 
@@ -272,6 +273,19 @@ type Points struct {
 	Week         int    `xml:"week"`
 	Total        float64
 	TotalStr     string `xml:"total"`
+}
+
+// WeekStats is the set of stats for a given week.
+type WeekStats struct {
+	CoverageType string `xml:"coverage_type"`
+	Week         int    `xml:"week"`
+	Stats        []Stat `xml:"stats>stat"`
+}
+
+// Stat represents scoring statistics for a single statistic category.
+type Stat struct {
+	StatId int    `xml:"stat_id"`
+	Value  string `xml:"value"`
 }
 
 // Record is the number of wins, losses, and ties for a given team in their

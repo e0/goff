@@ -11,7 +11,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/Forestmb/goff"
+	"github.com/e0/goff"
 )
 
 func main() {

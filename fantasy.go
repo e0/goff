@@ -235,6 +235,7 @@ type Settings struct {
 	ScoringType      string `xml:"scoring_type"`
 	UsesPlayoff      bool   `xml:"uses_playoff"`
 	PlayoffStartWeek int    `xml:"playoff_start_week"`
+	StatCategories   []Stat `xml:"stat_categories>stats>stat"`
 }
 
 // Scoreboard represents the matchups that occurred for one or more weeks.
@@ -284,8 +285,12 @@ type WeekStats struct {
 
 // Stat represents scoring statistics for a single statistic category.
 type Stat struct {
-	StatId int    `xml:"stat_id"`
-	Value  string `xml:"value"`
+	StatId            int    `xml:"stat_id"`
+	Enabled           bool   `xml:"enabled"`
+	Name              string `xml:"name"`
+	DisplayName       string `xml:"display_name"`
+	IsOnlyDisplayStat bool   `xml:"is_only_display_stat"`
+	Value             string `xml:"value"`
 }
 
 // Record is the number of wins, losses, and ties for a given team in their
@@ -720,6 +725,18 @@ func (c *Client) GetLeagueMetadata(leagueKey string) (*League, error) {
 		return nil, err
 	}
 	return &content.League, nil
+}
+
+// GetLeagueSettings returns the settings associated with the given league.
+func (c *Client) GetLeagueSettings(leagueKey string) (*Settings, error) {
+	content, err := c.GetFantasyContent(
+		fmt.Sprintf("%s/league/%s/settings",
+			YahooBaseURL,
+			leagueKey))
+	if err != nil {
+		return nil, err
+	}
+	return &content.League.Settings, nil
 }
 
 // GetAllTeams returns all teams playing in the given league.

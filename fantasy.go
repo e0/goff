@@ -176,6 +176,7 @@ type FantasyContent struct {
 	League  League   `xml:"league"`
 	Team    Team     `xml:"team"`
 	Users   []User   `xml:"users>user"`
+	Players []Player `xml:"players>player"`
 }
 
 // User contains the games a user is participating in
@@ -283,6 +284,12 @@ type WeekStats struct {
 	Stats        []Stat `xml:"stats>stat"`
 }
 
+type SeasonStats struct {
+	CoverageType string `xml:"coverage_type"`
+	Season       string `xml:"season"`
+	Stats        []Stat `xml:"stats>stat"`
+}
+
 // Stat represents scoring statistics for a single statistic category.
 type Stat struct {
 	StatId            int    `xml:"stat_id"`
@@ -325,6 +332,9 @@ type Player struct {
 	ElligiblePositions []string         `xml:"elligible_positions>position"`
 	SelectedPosition   SelectedPosition `xml:"selected_position"`
 	PlayerPoints       Points           `xml:"player_points"`
+	EditorialTeamAbbr  string           `xml:"editorial_team_abbr"`
+	PlayerStats        SeasonStats      `xml:"player_stats"`
+	Status             string           `xml:"status"`
 }
 
 // SelectedPosition is the position chosen for a Player for a given week.
